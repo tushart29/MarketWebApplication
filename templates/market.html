@@ -25,9 +25,9 @@
         <!--  items variable is from market.py -->
         {% for item in items %}
             <tr>
-                <td>${{item.id}}</td>
-                <td>${{item.name}}</td>
-                <td>${{item.barcode}}</td>
+                <td>{{item.id}}</td>
+                <td>{{item.name}}</td>
+                <td>{{item.barcode}}</td>
                 <td>${{item.price}}</td>
                 <td>
                 <!-- class are made for specialized for styling from the bootstrap-->

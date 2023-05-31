@@ -1,8 +1,41 @@
-from flask import Flask, render_template
 
+from flask import Flask, render_template
+from flask_sqlalchemy import SQLAlchemy
 #inialize the instance of Flask
 # __name__ refering to local file your working with
 app = Flask(__name__)
+
+# do this below so that the flask can know that there is a database
+# we used the flask object, and added extra configuration so that flask can recongize this database.
+# convention is to create a key, SQLALCHEMY_DATABASE_URI (Uniform Resource Identifier).
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///market.db'
+
+# this is our database instance
+# we can start creating our classes, later on it will be converted into modules, database table.
+db = SQLAlchemy(app)
+
+
+# informs flask that this is a module that will be a table inside a database
+class Item(db.Model):
+
+
+    # this next one is a convention when created a flask modules
+    # if not there, would get sqlalchemy.exc.ArgumentError
+    id = db.Column(db.Integer, primary_key=True)
+
+    # can't describe a name more than 30 characters
+    # don't want to have null fields - first argument
+    # allows our name to not have the same in the database
+    name = db.Column(db.String(length=30), nullable=False,unique = True )
+    price = db.Column(db.Integer(), nullable = False)
+    barcode = db.Column(db.String(length=12), nullable = False, unique = True)
+    description = db.Column(db.String(length=1000), nullable = False, unique = True)
+
+
+
+
+
+
 
 # what url do you want to navigate to
 @app.route('/')
@@ -24,3 +57,9 @@ def market_page():
 
 # bootstrap - https://getbootstrap.com/docs/4.5/getting-started/introduction/
 
+if __name__ == '__main__':
+    # below creates the market.db databse inside the instance file
+    # don't do this in the terminal as the documentation has changed
+    with app.app_context():
+        db.create_all()
+    app.run()
