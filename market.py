@@ -21,7 +21,7 @@ class Item(db.Model):
 
     # this next one is a convention when created a flask modules
     # if not there, would get sqlalchemy.exc.ArgumentError
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer(), primary_key=True)
 
     # can't describe a name more than 30 characters
     # don't want to have null fields - first argument
@@ -31,6 +31,9 @@ class Item(db.Model):
     barcode = db.Column(db.String(length=12), nullable = False, unique = True)
     description = db.Column(db.String(length=1000), nullable = False, unique = True)
 
+    # this function allows you to see the item by name in the database instead of the default ID flask gives
+    def __repr__(self):
+        return f'Item {self.name}'
 
 
 
@@ -47,19 +50,17 @@ def home_page():
 @app.route('/market')
 # trying to send random data from this route to html. trying to see how I can access it
 def market_page():
-    items = [
-        {'id': 1, 'name': 'Phone', 'barcode': '893212299897', 'price': 500},
-        {'id': 2, 'name': 'Book1', 'barcode': '123985473165', 'price': 900},
-        {'id': 3, 'name': 'Keyboard', 'barcode': '231985128446', 'price': 150}
-    ]
+    # stores all the items we stored in the database can be accessed through line 54
+    items = Item.query.all()
     return render_template('market.html', items = items)
     # we can access this key name, item_name, by using the Jinja web template  we got from flask
 
+
+
+
 # bootstrap - https://getbootstrap.com/docs/4.5/getting-started/introduction/
 
-if __name__ == '__main__':
-    # below creates the market.db databse inside the instance file
-    # don't do this in the terminal as the documentation has changed
-    with app.app_context():
-        db.create_all()
-    app.run()
+
+
+
+

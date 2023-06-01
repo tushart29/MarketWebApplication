@@ -1,0 +1,27 @@
+
+# DATABASE STEPS: adding items to database or to view items in the database
+# type in "flask shell" to do below in the project directory (termainl)
+# db.create_all() - don't need to do this when viewing
+# from market import Item
+# item1 = Item(name='Book1', barcode='123985473165', price=900, description='Interesting Book')
+# db.session.add(item1) #adds items to session
+# db.session.commit() # commits the changes to the database
+
+# view items in the database
+# type flask shell in the current project directory
+# from market import db
+# from market import Item
+# Item.query.all()
+
+# looping through all the items in the database in the terminal
+# >>> for item in Item.query.all():
+# ...   item.name
+# ...   item.price
+# ...   item.description
+# ...   item.id
+# ...   item.barcode
+
+# using the filter_by to get the item
+# filter_by returns all the objects that have price 500 so that is why you loop
+# >>> for item in item.query.filter_by(price=500):
+# ...   item.name
