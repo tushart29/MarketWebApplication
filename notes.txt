@@ -25,3 +25,28 @@
 # filter_by returns all the objects that have price 500 so that is why you loop
 # >>> for item in item.query.filter_by(price=500):
 # ...   item.name
+
+# we will create more models and routes so we should have python files for routes and models
+# circular imports: bascially two files trying to import from each other which is forbidden.
+
+# package all the files in the whole directory called market and run.py. by doing this it will import all the files
+# step-by-step
+
+# when working with python packages, you have to include one special file, __init__. before you import it, it loads
+# what you want to import.
+
+# __name__ == "main" checks if our run.py runs directly
+
+# had a problem with the directory. can the directory with
+
+# Get the absolute path to the current directory
+# base_dir = os.path.abspath(os.path.dirname(__file__))
+
+# Set the path to the database file inside the "market" folder
+db_path = os.path.join(base_dir, 'market.db')
+
+# main idea: package everything related to market. have one single file to execute and this file is responsible for everything
+
+
+
+
