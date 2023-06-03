@@ -9,5 +9,5 @@ class RegisterForm(FlaskForm):
     # PasswordField checks if both passwords are equal
     password1 = PasswordField(label='Password:')
     password2 = PasswordField(label='Confirm Password')
-    submit = SubmitField(label='submit')
+    submit = SubmitField(label='Create Account')
 
