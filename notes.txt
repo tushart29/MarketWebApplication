@@ -47,6 +47,17 @@ db_path = os.path.join(base_dir, 'market.db')
 
 # main idea: package everything related to market. have one single file to execute and this file is responsible for everything
 
+# Relationship field: describe serval arugments to make the module understand that the user can hold Items
 
 
+# db.drop_all() - will delete all the information from the database
+
+
+forms.py: create classes and going to create some fields in the classes. Those fields are required fields for customers
+that they can fill for registration
+
+you have to create a secret key so that the application is secure enough for the users
+
+request method - get method where clients requesting information to display on pages
+post requrest -  affects the database of the website
 

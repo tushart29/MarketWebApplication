@@ -20,6 +20,9 @@ db_path = os.path.join(base_dir, 'market.db')
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///market.db'
 app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{db_path}'
 
+app.config['SECRET_KEY'] = '1445fb114aff23559e3ee8b0'
+
+
 
 # this is our database instance
 # we can start creating our classes, later on it will be converted into modules, database table.

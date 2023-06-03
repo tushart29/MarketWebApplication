@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block title %}
+    Register Page
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <form method = "POST" class="form-register" style="color:white">
+
+                <img class ="mb-4" src = "sell_logo.png">
+                <h1 class = "h3 mb-3 font-weight-normal">
+                    Create your account here:
+                </h1>
+                {{form.username.label() }}
+                <!--       access attributes in html code-->
+                {{form.username(class="form-control",placeholder="User Name") }}
+
+                {{form.email_address.label() }}
+                {{form.email_address(class="form-control",placeholder="Email Address") }}
+
+                {{form.password1.label() }}
+                {{form.password1(class="form-control",placeholder="Password") }}
+
+                {{form.password2.label() }}
+                {{form.password2(class="form-control",placeholder="Confirm Password") }}
+        </form>
+    </div>
+
+
+
+
+
+{% endblock %}
