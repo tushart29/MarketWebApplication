@@ -28,4 +28,10 @@ class RegisterForm(FlaskForm):
     # verifys if password1 and password2 is confirmed
     submit = SubmitField(label='Create Account')
 
+class LoginForm(FlaskForm):
+    username = StringField(label = 'User Name' ,validators=[DataRequired()])
+    password = PasswordField(label = 'Password',validators=[DataRequired()])
+    submit = SubmitField(label='Log In')
+
+
 

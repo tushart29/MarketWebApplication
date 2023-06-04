@@ -1,6 +1,11 @@
+import bcrypt
 
 from market import db
+from market import bcrypt
 # informs flask that this is a module that will be a table inside a database
+
+
+# you can access Bcrypt since you already did it in init file
 
 # below are MODULES User and Item
 
@@ -16,12 +21,18 @@ class User(db.Model):
 
     items = db.relationship('Item', backref='owned_user', lazy = True)
 
+    #additional atrribute that will be accessable for each instance
+    @property
+    def password(self):
+        return self.password
+    @password.setter
+    def password(self, plain_password_setter):
+
+        self.password_hash = bcrypt.generate_password_hash(plain_password_setter).decode('utf-8')
+
     # backref is a back reference for the user module
     # Allows us to see the owner of the specfic item
     # lazy  = True allows you to grab all the items in one shot
-
-
-
 class Item(db.Model):
 
 

@@ -1,6 +1,7 @@
 from flask import Flask, render_template
 from flask_sqlalchemy import SQLAlchemy
 import os
+from flask_bcrypt import Bcrypt
 #inialize the instance of Flask
 # __name__ refering to local file your working with
 app = Flask(__name__)
@@ -28,6 +29,8 @@ app.config['SECRET_KEY'] = '1445fb114aff23559e3ee8b0'
 # we can start creating our classes, later on it will be converted into modules, database table.
 db = SQLAlchemy(app)
 
+# can depend on Bcrypt to start generating encrypted passwords
+bcrypt = Bcrypt(app)
 
 # do this so routes can recongnize the routes you created
 from market import routes
