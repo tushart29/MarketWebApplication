@@ -61,3 +61,9 @@ you have to create a secret key so that the application is secure enough for the
 request method - get method where clients requesting information to display on pages
 post requrest -  affects the database of the website
 
+
+# cross site request forgery - attack or steal information on database.
+to protect from the above - {{form.hidden_tag()}} is here in register. generates a tocken to protect from such attacks
+
+
+we want the ability to get the flash meessage from all our templates, not just the register template
