@@ -34,6 +34,10 @@ db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
 
 login_manager = LoginManager(app)
+# redirects the users to login page before clicking the marketing page.
+# it makes sense so that the user can login then view the inventory items
+login_manager.login_view = "login_page"
+login_manager.login_message_category = 'info'
 
 # do this so routes can recongnize the routes you created
 from market import routes

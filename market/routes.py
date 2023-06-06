@@ -3,7 +3,7 @@ from flask import render_template, redirect, url_for, flash, get_flashed_message
 from market.models import Item, User
 from market.forms import RegisterForm, LoginForm
 from market import db
-from flask_login import login_user
+from flask_login import login_user, logout_user, login_required
 
 
 # what url do you want to navigate to
@@ -13,6 +13,8 @@ def home_page():
     return render_template('home.html')
 
 @app.route('/market')
+# the line below is responsible for taking the users to the login page
+@login_required
 # trying to send random data from this route to hstml. trying to see how I can access it
 def market_page():
     # stores all the items we stored in the database can be accessed through line 54
@@ -35,6 +37,8 @@ def register_page():
         # password = form.password1.data) this line of code goes to password.setter decorator
         db.session.add(user_to_create)
         db.session.commit()
+        login_user(user_to_create)
+        flash(f'Account created Successfully. Your now logged in as: {user_to_create.username} ', category='success')
         return redirect(url_for('market_page'))
     if form.errors != {}: # if no errors from validation
         print("Form errors:", form.errors)
@@ -66,5 +70,11 @@ def login_page():
             flash(f'Username and password are not matching. Please try again !', category='danger')
     return render_template('login.html', form=form)
 
+@app.route('/logout')
+def logout_page():
+    # enough to grab the current user and log out
+    logout_user()
+    flash('Logged Out Successfully',category='info')
+    return redirect(url_for('home_page'))
 # bootstrap - https://getbootstrap.com/docs/4.5/getting-started/introduction/
 
