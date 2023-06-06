@@ -1,9 +1,9 @@
 from market import app
 from flask import render_template, redirect, url_for, flash, get_flashed_messages
 from market.models import Item, User
-
 from market.forms import RegisterForm, LoginForm
 from market import db
+from flask_login import login_user
 
 
 # what url do you want to navigate to
@@ -49,8 +49,22 @@ def register_page():
 @app.route('/login', methods=['GET','POST'])
 def login_page():
     form = LoginForm()
+    if form.validate_on_submit():
+        # first check if user exists
+        # filters out the username by the provided username
+        # .first grabs the object of that user
+        # second, if user does exit, then if password is actually the correct as the user
+        attempt_user = User.query.filter_by(username=form.username.data).first()
+        if attempt_user and attempt_user.check_password_correction(
+                attempted_password=form.password.data
+        ):
+            login_user(attempt_user)
+            flash(f'Successfully Logged in as: {attempt_user.username} ', category='success')
+            return redirect(url_for('market_page'))
+        else:
+            # danger displays red color message. Also, danger will be translated to base template has danger message
+            flash(f'Username and password are not matching. Please try again !', category='danger')
     return render_template('login.html', form=form)
-
 
 # bootstrap - https://getbootstrap.com/docs/4.5/getting-started/introduction/
 
