@@ -5,41 +5,68 @@
 
 {% block content %}
 
-<table class="table table-hover table-dark">
-        <thead>
-            <tr>
-                <!-- Columns HERE -->
-                <th scope="col">ID</th>
-                <th scope="col">Name</th>
-                <th scope="col">Barcode</th>
-                <th scope="col">Price</th>
-                <th scope="col">Options</th>
+<div class="row" style="margin-top:20px; margin-left:20px">
+    <div class="col-8">
+        <h2>
+            Avaliable Items on Market
+        </h2>
+        <p>
+            Click on items to start buying
+        </p>
+        <br>
+        <table class="table table-hover table-dark">
+            <thead>
+                <tr>
+                    <!-- Columns HERE -->
+                    <th scope="col">ID</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Barcode</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Options</th>
 
-            </tr>
-        </thead>
-        <tbody>
-        <!-- Rows HERE: -->
-        <!-- accessing the rendered variable thorugh Jinja template which was downloaded from flask package -->
-        <!--    <p> {{ items }} </p> -->
-        <!--  can write code like python in here like below-->
-        <!--  items variable is from market.py -->
-        {% for item in items %}
-            <tr>
-                <td>{{item.id}}</td>
-                <td>{{item.name}}</td>
-                <td>{{item.barcode}}</td>
-                <td>${{item.price}}</td>
-                <td>
-                <!-- class are made for specialized for styling from the bootstrap-->
-                    <button class ='btn btn-outline btn-info'> More Info </button>
-                    <button class ='btn btn-outline btn-success'> Buy </button>
-                    <!--btn-info fade more in blue color and btn-success will fade in more with green color-->
+                </tr>
+            </thead>
+            <tbody>
+            <!-- Rows HERE: -->
+            <!-- accessing the rendered variable thorugh Jinja template which was downloaded from flask package -->
+            <!--    <p> {{ items }} </p> -->
+            <!--  can write code like python in here like below-->
+            <!--  items variable is from market.py -->
+            {% for item in items %}
+<!--            we start the loop, load the items.html and we do that for each item we are iterating. The below line has access to each line-->
+<!--            we can refer to that item right in that below file-->
+            {% include 'includes/items_modals.html' %}
+                <tr>
+                    <td>{{item.id}}</td>
+                    <td>{{item.name}}</td>
+                    <td>{{item.barcode}}</td>
+                    <td>${{item.price}}</td>
+                    <td>
+                    <!-- class are made for specialized for styling from the bootstrap-->
+                        <button class="btn btn-outline btn-info" data-toggle="modal" data-target="#Modal-MoreInfo-{{ item.id }}">More Info</button>
+                        <button class="btn btn-outline btn-success" data-toggle="modal" data-target="#Modal-PurchaseConfirm-{{ item.id }}">Purchase this Item</button>
+                        <!--btn-info fade more in blue color and btn-success will fade in more with green color-->
 
-                </td>
-            </tr>
-        {% endfor %}
+                    </td>
+                </tr>
+            {% endfor %}
 
 
-        </tbody>
-    </table>
+            </tbody>
+        </table>
+
+
+    </div>
+    <div class="col-4">
+        <h2>
+            Your Items
+        </h2>
+        <p>
+            Click on Sell item  to put it back on the market
+        </p>
+        <br>
+    </div>
+</div>
+
+
 {% endblock %}

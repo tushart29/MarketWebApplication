@@ -92,6 +92,8 @@ ______________________
 current_user -able to grab the user data because of the flask_login import
 is_authenticated - able to check because of the usermixin class which we did by inheritence
 
+created a includes directory so that the html code will be not be confusing in the market.html
+
 
 
 
