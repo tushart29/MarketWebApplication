@@ -1,9 +1,9 @@
 from market import app
-from flask import render_template, redirect, url_for, flash, get_flashed_messages
+from flask import render_template, redirect, url_for, flash, request
 from market.models import Item, User
-from market.forms import RegisterForm, LoginForm
+from market.forms import RegisterForm, LoginForm, PurchaseItemForm
 from market import db
-from flask_login import login_user, logout_user, login_required
+from flask_login import login_user, logout_user, login_required, current_user
 
 
 # what url do you want to navigate to
@@ -12,15 +12,32 @@ from flask_login import login_user, logout_user, login_required
 def home_page():
     return render_template('home.html')
 
-@app.route('/market')
+@app.route('/market',methods=['GET','POST'])
 # the line below is responsible for taking the users to the login page
 @login_required
 # trying to send random data from this route to hstml. trying to see how I can access it
 def market_page():
     # stores all the items we stored in the database can be accessed through line 54
-    items = Item.query.all()
-    return render_template('market.html', items = items)
-    # we can access this key name, item_name, by using the Jinja web template  we got from flask
+    purhcase_form = PurchaseItemForm()
+    # the below if statement is like the form.validate.on_submit method from flask.
+    # the below if statement, takes away the form resumbssion error
+    if request.method == 'POST':
+        purchased_item = request.form.get('purchased_item')
+        # to inspect the item object, you have to call .first()
+        p_item_object = Item.query.filter_by(name=purchased_item).first()
+        if p_item_object:
+            if current_user.can_purchase(p_item_object):
+                p_item_object.buy(current_user)
+                flash(f"Purchased {{p_item_object.name}} successfully for {{p_item_object.price}}", category='success')
+            else:
+                flash(f"Unfortunately, you don't have enough money to purchase this  {p_item_object.name}", category='danger')
+        # we have to send users to this page, once the purchase is done
+        return redirect(url_for('market_page'))
+    if request.method == "GET":
+        # shows only the items where the item is not associated with the owner which means its avaliable
+        items = Item.query.filter_by(owner=None)
+        return render_template('market.html', items = items, purhcase_form =purhcase_form )
+        # we can access this key name, item_name, by using the Jinja web template  we got from flask
 
 
 # the list methods is there so that the routes can handle post requests

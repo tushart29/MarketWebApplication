@@ -47,7 +47,8 @@ class User(db.Model, UserMixin):
         # execute this function and return the value if the hashed passowrd is equal to the orginal password
         return bcrypt.check_password_hash(self.password_hash, attempted_password)
 
-
+    def can_purchase(self, item_obj):
+        return self.budget >= item_obj.price
     # backref is a back reference for the user module
     # Allows us to see the owner of the specfic item
     # lazy  = True allows you to grab all the items in one shot
@@ -72,6 +73,12 @@ class Item(db.Model):
     # this function allows you to see the item by name in the database instead of the default ID flask gives
     def __repr__(self):
         return f'Item {self.name}'
+    def buy(self, user):
+        # associates the item with the owner in the database
+        self.owner = user.id
+        user.budget -= self.price
+        # saves the operation to the databsase
+        db.session.commit()
 
 
 
