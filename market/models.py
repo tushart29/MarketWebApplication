@@ -49,6 +49,13 @@ class User(db.Model, UserMixin):
 
     def can_purchase(self, item_obj):
         return self.budget >= item_obj.price
+    def can_sell(self, item_obj):
+
+        # at the top we have all the items, in the user class
+        # so using this, we will check if this item object is in the user inventory, then we can sell if this is true in the routes.py
+        return item_obj in self.items
+
+
     # backref is a back reference for the user module
     # Allows us to see the owner of the specfic item
     # lazy  = True allows you to grab all the items in one shot
@@ -77,6 +84,13 @@ class Item(db.Model):
         # associates the item with the owner in the database
         self.owner = user.id
         user.budget -= self.price
+        # saves the operation to the databsase
+        db.session.commit()
+
+    def sell(self, user):
+        # un-associates the item with the owner in the database
+        self.owner = None
+        user.budget += self.price
         # saves the operation to the databsase
         db.session.commit()
 

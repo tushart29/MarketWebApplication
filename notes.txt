@@ -95,6 +95,14 @@ is_authenticated - able to check because of the usermixin class which we did by 
 created a includes directory so that the html code will be not be confusing in the market.html
 
 
+to trigger an identifier, you mush call the identifier (id) in the html files such as owned_items_models.htlm
+
+you must do like such in owned_items_models {% include 'includes/items_modals.html' %}. you do this because
+you want to trigger the model and html should code should be recornized. for the model to be implemented, you must trigger the include
+inside the for loop iteration
+
+
+
 
 
 
